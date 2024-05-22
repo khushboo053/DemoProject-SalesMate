@@ -1,0 +1,42 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/orders.css" />
+<link rel="stylesheet" href="css/forms.css">
+<body>
+  <%- include('../includes/sidebar.ejs') %>
+
+  <main>
+    <% if (products.length > 0) { %>
+    <div class="grid">
+      <% for (let product of products) { %>
+      <article class="card product-item">
+        <header class="card__header">
+          <h1 class="product__title"><%= product.name %></h1>
+        </header>
+
+        <div class="card__content">
+            <h2 class="creators__pageName">
+                Availability: <%= product.stock %>       
+                Price: <%= product.sellPrice %>     
+            </h2>
+            <h2>
+            </h2>
+          <p class="product__description"><%= product.description %></p>
+        </div>
+
+        <!-- <form action="" method="post" class="form-control card__actions">
+            <input type="number" name="stock" placeholder="Quantity">
+            <button class="btn">Increase Quantity</button>
+        </form> -->
+
+        <a href="/getCart/<%= product.id %>" class="btn">Add to cart</a>
+
+      </article>
+      <% } %>
+    </div>
+    <% } else { %>
+    <h1 style="color: white;">No Products Found!</h1>
+    <% } %>
+  </main>
+  <%- include('../includes/end.ejs') %>
+</body>

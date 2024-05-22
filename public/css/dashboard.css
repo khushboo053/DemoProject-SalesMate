@@ -1,0 +1,109 @@
+.dashboard-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 22%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+}
+
+.dashboard-tables {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+caption {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px;
+    text-align: left;
+}
+
+
+.table-card {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.table-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.table-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.table-row.header {
+    font-weight: bold;
+    background-color: transparent;
+    box-shadow: none;
+    margin-bottom: 10px;
+}
+
+.cell {
+    flex: 1;
+    text-align: center;
+    padding: 8px 16px;
+}
+
+/* Additional responsiveness for smaller screens */
+@media (max-width: 768px) {
+    .table-row {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .cell {
+        padding: 8px;
+    }
+}

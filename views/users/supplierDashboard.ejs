@@ -1,0 +1,101 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/sidebar.css" />
+<link rel="stylesheet" href="/css/dashboard.css" />
+<!-- Add a custom CSS for dashboard -->
+<body>
+  <main>
+    <%- include('../includes/supplierSidebar.ejs') %>
+    <div class="main-content">
+      <button id="openBtn" class="open-btn">&#9776; Open Sidebar</button>
+      <div class="dashboard-cards">
+        <!-- <div class="card">
+          <h3>Users</h3>
+          <p><%= userCount %></p>
+        </div> -->
+        <div class="card">
+          <h3>Categories</h3>
+          <p><%= categoryCount %></p>
+        </div>
+        <div class="card">
+          <h3>Products</h3>
+          <p><%= productCount %></p>
+        </div>
+        <div class="card">
+          <h3>Total Sales</h3>
+          <p>$<%= salesTotal %></p>
+        </div>
+      </div>
+
+      <!-- Small tables -->
+      <div class="dashboard-tables">
+        <table>
+          <caption>
+            Highest Selling Products
+          </caption>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Total Sold</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sample row -->
+            <% highestSellingProducts.forEach(function(product) { %>
+            <tr>
+              <td><%= product.product.name %></td>
+              <td><%= product.dataValues.TotalSales.toFixed(2) %></td>
+            </tr>
+            <% }) %>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+
+        <table>
+          <caption>
+            Latest Sales
+          </caption>
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Date</th>
+              <th>Total Sales</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% latestSales.forEach(sale => { %>
+            <tr>
+              <td><%= sale.product.name %></td>
+              <td><%= new Date(sale.createdAt).toLocaleDateString() %></td>
+              <td><%= sale.total.toFixed(2) %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <!-- Low Stock Products Table modified to show like small cards in rows -->
+      <div class="dashboard-tables">
+        <div class="table-card">
+          <h3>Recently Added Products</h3>
+          <div class="table-row header">
+            <div class="cell">Product</div>
+            <div class="cell">Category</div>
+            <div class="cell">Price</div>
+            <div class="cell">Stock</div>
+          </div>
+          <!-- Sample data, replace with dynamic server-side fetched data -->
+          <% recentlyAddedProducts.forEach(product => { %>
+          <div class="table-row">
+            <div class="cell"><%= product.name %></div>
+            <div class="cell"><%= product.category.name %></div>
+            <div class="cell">$<%= product.sellPrice.toFixed(2) %></div>
+            <div class="cell"><%= product.stock %></div>
+          </div>
+          <% }); %>
+          <!-- Add more rows as needed dynamically -->
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="/js/dashboard.js"></script>
+  <%- include('../includes/end.ejs') %>
+</body>

@@ -1,0 +1,5 @@
+.env
+config/config.json
+node_modules
+extraCode.txt
+notes.txt

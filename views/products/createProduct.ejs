@@ -1,0 +1,51 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="css/forms.css">
+<link rel="stylesheet" href="css/main.css">
+<body>
+    <main>
+        <%- include('../includes/adminSidebar.ejs') %>
+        <div class="main-content">
+            <button id="openBtn" class="open-btn">&#9776; Open Sidebar</button>
+            <form
+            class="login-form"
+            action="/createProduct"
+            method="POST"
+          >
+            <h1>Create New Product</h1>
+            <div class="form-control">
+              <label for="name">Product Title</label>
+              <input type="text" name="name" id="name"/>
+            </div>
+
+            <div class="form-control">
+              <label for="description">Description</label>
+              <input type="text" name="description" id="description"/>
+            </div>
+
+            <div class="form-control">
+              <label for="categoryId">CategoryId</label>
+              <input type="text" name="categoryId" id="categoryId"/>
+            </div>
+
+
+            <div class="form-control">
+              <label for="stock">In-Stock</label>
+              <input type="text" name="stock" id="stock"/>
+            </div>
+
+            <div class="form-control">
+              <label for="buyPrice">Buying Price</label>
+              <input type="text" name="buyPrice" id="buyPrice"/>
+            </div>
+
+            <div class="form-control">
+              <label for="sellPrice">Selling Price</label>
+              <input type="text" name="sellPrice" id="sellPrice"/>
+            </div>
+
+            <button class="btn" type="submit">Create Product</button>
+          </form>
+        </div>
+    </main>
+    <script src="js/dashboard.js"></script>
+<%- include('../includes/end.ejs') %>

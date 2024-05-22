@@ -1,0 +1,204 @@
+<%- include('../includes/head.ejs') %>
+<style>
+  .chart-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .controls {
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+<body>
+<main>
+  <% if (user.role === 'admin') { %> 
+      <%- include('../includes/adminSidebar.ejs') %> 
+  <% } else if (user.role ==='user') { %> 
+      <%- include('../includes/sidebar.ejs') %> 
+  <% } else { %> 
+      <%- include('../includes/supplierSidebar.ejs') %> 
+  <% } %>
+
+  <div class="main-content">
+    <button id="openBtn" class="open-btn">&#9776; Open Sidebar</button>
+    
+    <div class="controls">
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate" name="startDate">
+
+      <label for="endDate">End Date:</label>
+      <input type="date" id="endDate" name="endDate">
+
+      <label for="frequency">Frequency:</label>
+      <select id="frequency" name="frequency">
+        <option value="daily">Daily</option>
+        <option value="monthly">Monthly</option>
+        <option value="yearly">Yearly</option>
+      </select>
+  
+      <button id="updateChartButton">Update Chart</button>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="salesChart"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="salesPieChart"></canvas>
+    </div>
+  </div>
+</main>
+
+<script>
+  let salesChart;
+  let salesPieChart;
+
+  document.getElementById('updateChartButton').addEventListener('click', function() {
+      createCharts();
+  });
+
+  async function fetchSalesData(startDate, endDate, frequency) {
+    const response = await fetch('/postSalesVisualize', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ startDate, endDate, frequency })
+    });
+    const data = await response.json();
+    console.log(data); // Log the data for debugging
+    return data;
+  }
+
+  async function createCharts() {
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+    const frequency = document.getElementById('frequency').value;
+
+    if (!startDate || !endDate) {
+      alert("Please select both start and end dates.");
+      return;
+    }
+
+    const salesData = await fetchSalesData(startDate, endDate, frequency);
+
+    if (!Array.isArray(salesData)) {
+      console.error('Expected an array but got:', salesData);
+      return;
+    }
+
+    const labels = salesData.map(sale => sale.date);
+    const totalSales = salesData.map(sale => sale.totalSales);
+    const totalQuantity = salesData.map(sale => sale.totalQuantity);
+    const profit = salesData.map(sale => sale.profit);
+
+    const ctxLine = document.getElementById('salesChart').getContext('2d');
+    const ctxPie = document.getElementById('salesPieChart').getContext('2d');
+
+    if (salesChart) {
+      salesChart.destroy(); // Destroy the previous chart instance if it exists
+    }
+
+    if (salesPieChart) {
+      salesPieChart.destroy(); // Destroy the previous pie chart instance if it exists
+    }
+
+    salesChart = new Chart(ctxLine, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Total Sales',
+            data: totalSales,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            fill: true,
+            tension: 0.1
+          },
+          {
+            label: 'Total Quantity',
+            data: totalQuantity,
+            borderColor: 'rgba(153, 102, 255, 1)',
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            fill: true,
+            tension: 0.1
+          },
+          {
+            label: 'Profit',
+            data: profit,
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            fill: true,
+            tension: 0.1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Date'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Value'
+            }
+          }
+        }
+      }
+    });
+
+    const pieLabels = ['Total Sales', 'Total Quantity', 'Profit'];
+    const pieData = [
+      totalSales.reduce((a, b) => a + b, 0),
+      totalQuantity.reduce((a, b) => a + b, 0),
+      profit.reduce((a, b) => a + b, 0)
+    ];
+
+    salesPieChart = new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: pieLabels,
+        datasets: [{
+          data: pieData,
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 99, 132, 0.6)'
+          ],
+          borderColor: [
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 99, 132, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    const lastMonth = new Date();
+    lastMonth.setMonth(lastMonth.getMonth() - 1);
+    const lastMonthDate = lastMonth.toISOString().split('T')[0];
+    
+    document.getElementById('startDate').value = lastMonthDate;
+    document.getElementById('endDate').value = today;
+
+    createCharts();
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/dashboard.js"></script>
+
+<%- include('../includes/end.ejs') %>

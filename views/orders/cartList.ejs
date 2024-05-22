@@ -1,0 +1,78 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="css/table.css" />
+<link rel="stylesheet" href="css/main.css" />
+<link rel="stylesheet" href="css/sidebar.css" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+/>
+
+<body>
+  <main>
+    <% if (user.role === 'admin') { %>
+      <%- include('../includes/adminSidebar.ejs') %>
+    <% } else if (user.role === 'user') { %>
+      <%- include('../includes/sidebar.ejs') %>
+    <% } else { %>
+      <%- include('../includes/supplierSidebar.ejs') %>
+    <% } %>
+    <div class="main-content">
+      <button id="openBtn" class="open-btn">&#9776; Open Sidebar</button>
+      <h1 style="color: white; text-align: center">Cart</h1>
+
+      <% if (carts.length > 0) { %>
+      <div class="container">
+        <ul class="responsive-table">
+          <li class="table-header">
+            <div class="col col-1">ID</div>
+            <div class="col col-2">User Id</div>
+            <div class="col col-3">Product Id</div>
+            <div class="col col-4">Quantity</div>
+            <div class="col col-6">Total Amount</div>
+            <div class="col col-7">Product Added</div>
+            <% if (user.role === 'admin' || user.role === 'supplier') { %>
+              <div class="col col-8">Action</div>
+              <div class="col col-9">Action</div>
+              <% } %>
+          </li>
+          <% carts.forEach(function(cart) { %>
+            <li class="table-row">
+            <div class="col col-1"><%= cart.id %></div>
+            <div class="col col-2"><%= cart.userId %></div>
+            <div class="col col-3"><%= cart.productId %></div>
+            <div class="col col-4"><%= cart.qty %></div>
+            <div class="col col-5"><%= cart.totalAmount %></div>
+            <div class="col col-7"><%= new Date(cart.createdAt).toLocaleDateString() %></div>
+            <% if(user.role === 'admin' || user.role === 'supplier') { %>
+            <div class="col col-8">
+
+                <a href="" style="color: white"
+                  ><i class="fa-solid fa-pen"></i
+                    ></a>
+            </div>
+            <% } %>
+          <% if(user.role === 'admin' || user.role === 'supplier') { %>
+            <div class="col col-9">
+              <a
+                href=""
+                style="color: white"
+                ><i class="fa-solid fa-trash"></i
+              ></a>
+            </div>
+            <% } %>
+          </li>
+          <% }); %>
+        </ul>
+      </div>
+      <% } else { %>
+      <h1 style="color: white; margin-top: 25px; margin-left: 40px">
+        No Products Found in Cart.
+      </h1>
+      <% } %>
+    </div>
+  </main>
+  <script src="js/dashboard.js"></script>
+  
+
+  <%- include('../includes/end.ejs') %>
+</body>

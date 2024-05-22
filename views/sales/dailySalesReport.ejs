@@ -1,0 +1,38 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="css/report.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
+
+<body>
+    <main>
+        <%- include('../includes/adminSidebar.ejs') %>
+        <div class="main-content">
+            <button id="openBtn" class="open-btn">&#9776; Open Sidebar</button>
+            <h1>Daily Sales Report Generator</h1>
+            <form id="reportForm" action="/getDailyReport" method="POST" target="_blank">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" required>
+
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" required>
+
+                <label for="frequency">Frequency</label>
+                <select name="frequency" id="frequency">
+                    <option value="daily">Daily</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="yaerly">Yearly</option>
+                </select>
+
+                <button type="submit">
+                    Generate Report</button>
+            </form>
+        </div>
+    </main>
+<script src="js/dashboard.js"></script>
+<!-- <script src="js/report.js"></script> -->
+<!-- <script> -->
+    <!-- flatpickr("#startDate", {}); -->
+    <!-- flatpickr("#endDate", {}); -->
+<!-- </script> -->
+
+<%- include('../includes/end.ejs') %>    

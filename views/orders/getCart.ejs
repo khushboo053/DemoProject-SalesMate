@@ -1,0 +1,34 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/orders.css" />
+<link rel="stylesheet" href="/css/forms.css" />
+<link rel="stylesheet" href="/css/cart.css">
+<body>
+    <main>
+    <% if (user.role === 'admin') { %>
+      <%- include('../includes/adminSidebar.ejs') %>
+    <% } else if (user.role === 'user') { %>
+      <%- include('../includes/sidebar.ejs') %>
+    <% } else { %>
+      <%- include('../includes/supplierSidebar.ejs') %>
+    <% } %>
+    <div class="main-content">
+        <button id="openBtn" class="open-btn">&#9776; Open Sidebar</button>
+        <h1>Cart</h1>
+            <ul class="cart__item-list">
+                <li class="cart__item">
+                    <h1><%= product.name %></h1>
+                    <h2><%= product.description %></h2>
+                    <h2>Availability: <%= product.stock %></h2>
+                    <h2>Price: <%= product.sellPrice %></h2>   
+                    <h2>Total Amount: <%= cart ? cart.totalAmount : 0 %></h2>             
+                </li>
+            </ul>
+            <form action="/raiseQuantity/<%= product.id %>" method="post" class="form-control card__actions">
+                <input type="number" name="qty" placeholder="Quantity" style="color: black;">
+                <button class="btn">Raise Quantity</button>
+            </form>
+
+        </div>
+    </main>
+<script src="/js/dashboard.js"></script>
+  <%- include('../includes/end.ejs') %>

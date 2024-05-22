@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="/css/sidebar.css">
+<div id="sidebar" class="sidebar">
+        <button id="closeBtn" class="close-btn">&times;</button>
+        <div class="dropdown">
+            <a href="/dashboard" class="dropbtn">Dashboard</a>
+        </div>
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Category</a>
+            <div class="dropdown-content">
+                <a href="/categories">View Category</a>
+                <!-- <a href="/createCategory">Add Category</a> -->
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Products</a>
+            <div class="dropdown-content">
+                <a href="/products">View Products</a>
+                <!-- <a href="/createProduct">Add Product</a> -->
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Manage Orders</a>
+            <div class="dropdown-content">
+                <a href="/getSeeProducts">Place Order</a>
+                <a href="">View Transactions</a>
+                <!-- <a href="/createProduct">Add Product</a> -->
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="/cartList" class="dropbtn">Cart</a>
+        </div>
+        <!-- <div class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Sales Report</a>
+            <div class="dropdown-content">
+                <a href="/getReport">Sales By Dates</a>
+                <a href="/createSales">Sales By Months</a>
+                <a href="">Sales By year</a>
+            </div>
+        </div> -->
+        <a class="<%= path === '/logout' ? 'active' : '' %>" href="/logout">Logout</a>
+    </div>
+    
